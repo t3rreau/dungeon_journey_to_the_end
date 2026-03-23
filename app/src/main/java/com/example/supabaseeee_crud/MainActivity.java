@@ -1,5 +1,7 @@
 package com.example.supabaseeee_crud;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -20,6 +22,7 @@ import com.example.supabaseeee_crud.databinding.ActivityMainBinding;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -51,18 +54,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
-        ListView ListView = findViewById(R.id.listView);
-        adapter = new ArrayAdapter<>( this,
-                android.R.layout.simple_list_item_1,
-                productList);
-        ListView.setAdapter(adapter);
-
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAnchorView(R.id.fab)
                         .setAction("Action", null).show();
+            }
+        });
+
+        Button gotoCanva = findViewById(R.id.btn_goto_canva);
+
+        gotoCanva.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(getApplicationContext(), CanvaActivity.class);
+                startActivity(myIntent);
             }
         });
     }
