@@ -16,16 +16,13 @@
         android:theme="@style/Theme.SUPABASEEEE_CRUD">
         <activity
             android:name=".CanvaActivity"
-            android:exported="false" />
-        <activity
-            android:name=".canvas_activity"
             android:exported="false"
-            android:label="@string/title_activity_canvas"
-            android:theme="@style/Theme.SUPABASEEEE_CRUD" />
+            android:screenOrientation="landscape" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.SUPABASEEEE_CRUD">
+            android:theme="@style/Theme.SUPABASEEEE_CRUD"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

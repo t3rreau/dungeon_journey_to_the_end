@@ -18,13 +18,13 @@ public class CanvaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_canva);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.canvaView), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.canvaLayout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        relativeLayout = findViewById(R.id.canvaView);
+        relativeLayout = findViewById(R.id.canvaLayout);
 
         Painter paintView = new Painter(this);
         relativeLayout.addView(paintView);
