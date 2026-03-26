@@ -13,6 +13,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 public class CanvaActivity extends AppCompatActivity {
 
     private RelativeLayout relativeLayout;
@@ -42,5 +48,20 @@ public class CanvaActivity extends AppCompatActivity {
 
         Painter paintView = new Painter(this);
         relativeLayout.addView(paintView);
+
+        StringBuffer buf = new StringBuffer();
+        try {
+            InputStream istream = getAssets().open("test_floor.txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(istream));
+            String str;
+
+            while ((str = reader.readLine()) != null) {
+                buf.append(str + "\n");
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+            GridWorldData.gridGenFromString(buf.toString());
     }
 }

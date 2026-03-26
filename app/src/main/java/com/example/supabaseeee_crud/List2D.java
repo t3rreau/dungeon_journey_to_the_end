@@ -1,12 +1,14 @@
 package com.example.supabaseeee_crud;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 public class List2D<T> {
 
 
 
-    private ArrayList<T> list = new ArrayList<T>();
+    public ArrayList<T> list = new ArrayList<T>();
     private int width, height;
 
 
@@ -31,5 +33,17 @@ public class List2D<T> {
         list.clear();
         list.ensureCapacity(w * h);
         for (int i = 0; i < w * h; i ++) list.add(val);
+    }
+
+
+
+    public T get(int x, int y)
+    {
+        return list.get(x + y * width);
+    }
+
+    public void set(int x, int y, T val)
+    {
+        list.set(x + y * width, val);
     }
 }
