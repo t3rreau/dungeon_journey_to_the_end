@@ -46,8 +46,7 @@ public class CanvaActivity extends AppCompatActivity {
 
         relativeLayout = findViewById(R.id.canvaLayout);
 
-        Painter paintView = new Painter(this);
-        relativeLayout.addView(paintView);
+
 
         StringBuffer buf = new StringBuffer();
         try {
@@ -62,6 +61,11 @@ public class CanvaActivity extends AppCompatActivity {
         catch (IOException e) {
             e.printStackTrace();
         }
-            GridWorldData.gridGenFromString(buf.toString());
+        GridWorldData.gridGenFromString(buf.toString());
+
+        GraphicsLoader.requestBitmap("floor.png", getAssets());
+
+        Painter paintView = new Painter(this);
+        relativeLayout.addView(paintView);
     }
 }

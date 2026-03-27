@@ -48,7 +48,6 @@ public final class GridWorldData {
             for (int y = 0; y < lines.length; y++)
             {
                 gridStaticStructures.set(x, y, enumValues[(int) (lines[y].charAt(x) - '0')]);
-
             }
         }
 

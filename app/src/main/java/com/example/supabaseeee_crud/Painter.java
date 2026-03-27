@@ -1,9 +1,11 @@
 package com.example.supabaseeee_crud;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.View;
 
 public class Painter extends View {
@@ -26,5 +28,13 @@ public class Painter extends View {
                 getTop() + (getBottom() - getTop()) / 3,
                 getRight() - (getRight() - getLeft()) / 3,
                 getBottom() - (getBottom() - getTop()) / 3, basicPaint);
+
+        Bitmap image = GraphicsLoader.requestBitmap("floor.png", getContext().getAssets());
+        canvas.drawBitmap(image,
+                new Rect(0, 0, image.getWidth(), image.getHeight()),
+                new Rect(getLeft() + (getRight() - getLeft()) / 3,
+                getTop() + (getBottom() - getTop()) / 3,
+                getRight() - (getRight() - getLeft()) / 3,
+                getBottom() - (getBottom() - getTop()) / 3), null);
     }
 }
