@@ -14,7 +14,7 @@ public final class GridWorldData {
     private static int width;
 
     private void setWidth(int val) {width = val;}
-    public int getWidth() {return width;}
+    public static int getWidth() {return gridStaticStructures.getWidth();}
 
 
 
@@ -24,7 +24,7 @@ public final class GridWorldData {
     private static int height;
 
     private void setHeight(int val) {height = val;}
-    public int getHeight() {return height;}
+    public static int getHeight() {return gridStaticStructures.getHeight();}
 
 
 
@@ -52,6 +52,11 @@ public final class GridWorldData {
         }
 
         Log.d("GridWorldData", gridStaticStructures.toString());
+    }
+
+    public static StaticStructureID getCell(int x, int y)
+    {
+        return gridStaticStructures.get(x, y);
     }
 
 }

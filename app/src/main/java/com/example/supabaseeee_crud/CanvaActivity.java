@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import androidx.activity.EdgeToEdge;
@@ -14,7 +13,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,6 +20,8 @@ import java.io.InputStreamReader;
 public class CanvaActivity extends AppCompatActivity {
 
     private RelativeLayout relativeLayout;
+
+    float lastTouchX, lastTouchY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,20 @@ public class CanvaActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d("TOUCHY", "sauce bolognaise");
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        lastTouchX = event.getX();
+                        lastTouchY = event.getY();
+                        break;
+                    }
+
+                    case MotionEvent.ACTION_MOVE: {
+                        float deltaX = event.getX() - lastTouchX;
+                        float deltaY = event.getY() - lastTouchY;
+
+                        
+                    }
                 return false;
             }
         });
@@ -65,7 +79,7 @@ public class CanvaActivity extends AppCompatActivity {
 
         GraphicsLoader.requestBitmap("floor.png", getAssets());
 
-        Painter paintView = new Painter(this);
+        GridPainter paintView = new GridPainter(this);
         relativeLayout.addView(paintView);
     }
 }
