@@ -1,6 +1,7 @@
 package com.example.supabaseeee_crud;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +24,21 @@ public class CanvaActivity extends AppCompatActivity {
 
     float lastTouchX, lastTouchY;
 
+    boolean canRepaint = true;
+
+    CountDownTimer fpsLimiter = new CountDownTimer(30, 10) {
+
+        @Override
+        public void onTick(long l) {
+
+        }
+
+        @Override
+        public void onFinish() {
+            canRepaint = true;
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,24 +52,47 @@ public class CanvaActivity extends AppCompatActivity {
 
         View view = findViewById(R.id.canvaLayout);
 
+        GridPainter paintView = new GridPainter(this);
+
         view.setOnTouchListener(new View.OnTouchListener() {
+
+            final GridPainter painter = paintView;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Log.d("TOUCHY", "sauce bolognaise");
 
-                switch (event.getAction()) {
+
+                switch (event.getActionMasked()) {
                     case MotionEvent.ACTION_DOWN: {
                         lastTouchX = event.getX();
                         lastTouchY = event.getY();
-                        break;
+
+                        return true;
                     }
 
                     case MotionEvent.ACTION_MOVE: {
                         float deltaX = event.getX() - lastTouchX;
                         float deltaY = event.getY() - lastTouchY;
 
-                        
+                        painter.cameraX += (int)deltaX;
+                        painter.cameraY += (int)deltaY;
+
+                        lastTouchX = event.getX();
+                        lastTouchY = event.getY();
+
+
+                        if (canRepaint)
+                        {
+                            // tell the view to redraw itself
+                            painter.invalidate();
+
+                            canRepaint = false;
+                            fpsLimiter.start();
+                        }
+
+                        return true;
                     }
+                }
                 return false;
             }
         });
@@ -77,9 +116,15 @@ public class CanvaActivity extends AppCompatActivity {
         }
         GridWorldData.gridGenFromString(buf.toString());
 
-        GraphicsLoader.requestBitmap("floor.png", getAssets());
 
-        GridPainter paintView = new GridPainter(this);
+
         relativeLayout.addView(paintView);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        fpsLimiter.cancel();
     }
 }

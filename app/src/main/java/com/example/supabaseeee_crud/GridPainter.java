@@ -23,7 +23,7 @@ public class GridPainter extends View {
 
     int cellScreenSize;
 
-    public int camera_x, camera_y;
+    public int cameraX, cameraY;
 
     public GridPainter(Context context) {
         super(context);
@@ -76,10 +76,10 @@ public class GridPainter extends View {
                         break;
                 }
 
-                destRect.bottom = getTop() + y * cellScreenSize + (cellScreenSize / 2) * 3 + camera_y;
-                destRect.left = getLeft() + x * cellScreenSize - cellScreenSize / 2 + camera_x;
-                destRect.top = getTop() + y * cellScreenSize - cellScreenSize / 2 + camera_y;
-                destRect.right = getLeft() + x * cellScreenSize + cellScreenSize / 2 + camera_x;
+                destRect.bottom = getTop() + y * cellScreenSize + (cellScreenSize / 2) * 3 + cameraY;
+                destRect.left = getLeft() + x * cellScreenSize - cellScreenSize / 2 + cameraX;
+                destRect.top = getTop() + y * cellScreenSize - cellScreenSize / 2 + cameraY;
+                destRect.right = getLeft() + x * cellScreenSize + cellScreenSize / 2 + cameraX;
 
                 // Log.d("GridPainter", "draw at " + destRect.top + ":" + destRect.bottom + " " + destRect.left + ":" + destRect.right);
 
