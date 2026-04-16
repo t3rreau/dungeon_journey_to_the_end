@@ -39,6 +39,23 @@ public class CanvaActivity extends AppCompatActivity {
         }
     };
 
+    CountDownTimer updateCaller = new CountDownTimer(30, 10) {
+        @Override
+        public void onFinish() {
+            update();
+        }
+
+        @Override
+        public void onTick(long l) {
+
+        }
+    };
+
+    protected void update()
+    {
+        updateCaller.start();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,8 +116,6 @@ public class CanvaActivity extends AppCompatActivity {
 
         relativeLayout = findViewById(R.id.canvaLayout);
 
-
-
         StringBuffer buf = new StringBuffer();
         try {
             InputStream istream = getAssets().open("test_floor.txt");
@@ -119,12 +134,15 @@ public class CanvaActivity extends AppCompatActivity {
 
 
         relativeLayout.addView(paintView);
+
+        updateCaller.start();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
+        updateCaller.cancel();
         fpsLimiter.cancel();
     }
 }

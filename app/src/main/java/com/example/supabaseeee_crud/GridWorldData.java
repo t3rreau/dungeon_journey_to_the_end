@@ -3,6 +3,7 @@ package com.example.supabaseeee_crud;
 import android.util.Log;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public final class GridWorldData {
 
@@ -29,6 +30,8 @@ public final class GridWorldData {
 
 
     private static List2D<StaticStructureID> gridStaticStructures = new List2D<StaticStructureID>(0, 0, StaticStructureID.VOID);
+
+    private static ArrayList<GridEntity> entities = new ArrayList<GridEntity>();
 
 
     public static void gridGenFromString(String data)
@@ -57,6 +60,14 @@ public final class GridWorldData {
     public static StaticStructureID getCell(int x, int y)
     {
         return gridStaticStructures.get(x, y);
+    }
+
+    public static void update()
+    {
+        for (int i = 0; i < entities.size(); i++)
+        {
+            entities.get(i).update();
+        }
     }
 
 }
