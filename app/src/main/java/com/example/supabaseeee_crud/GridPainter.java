@@ -18,6 +18,8 @@ public class GridPainter extends View {
     Bitmap imgFloor;
     Bitmap imgWall;
 
+    Bitmap imgEntityDefault;
+
     Rect cellRect;
     Rect destRect;
 
@@ -35,9 +37,11 @@ public class GridPainter extends View {
         imgWall = GraphicsLoader.requestBitmap("wall.png", context.getAssets());
         imgMissing = GraphicsLoader.requestBitmap("noimg.png", context.getAssets());
 
+        imgEntityDefault = GraphicsLoader.requestBitmap("roamer_down.png", context.getAssets());
+
         // all images should have the same size (32x64)
         cellRect = new Rect(0, 0, imgMissing.getWidth(), imgMissing.getHeight());
-        destRect = new Rect();
+        destRect = new Rect(); // allocate the destrect object
     }
 
 	@Override
@@ -85,6 +89,19 @@ public class GridPainter extends View {
 
                 canvas.drawBitmap(img, cellRect, destRect, null);
             }
+        }
+
+        for (int i = 0; i < GridWorldData.entities.size(); i++)
+        {
+            float x = GridWorldData.entities.get(i).display_transform.x;
+            float y = GridWorldData.entities.get(i).display_transform.y;
+
+            destRect.bottom = (int)(getTop() + y * cellScreenSize + (cellScreenSize / 2f) * 3 + cameraY);
+            destRect.left = (int)(getLeft() + x * cellScreenSize - cellScreenSize / 2f + cameraX);
+            destRect.top = (int)(getTop() + y * cellScreenSize - cellScreenSize / 2f + cameraY);
+            destRect.right = (int)(getLeft() + x * cellScreenSize + cellScreenSize / 2f + cameraX);
+
+            canvas.drawBitmap(imgEntityDefault, cellRect, destRect, null);
         }
 
     }

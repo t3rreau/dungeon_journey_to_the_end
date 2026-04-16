@@ -31,7 +31,7 @@ public final class GridWorldData {
 
     private static List2D<StaticStructureID> gridStaticStructures = new List2D<StaticStructureID>(0, 0, StaticStructureID.VOID);
 
-    private static ArrayList<GridEntity> entities = new ArrayList<GridEntity>();
+    public static ArrayList<GridEntity> entities = new ArrayList<GridEntity>();
 
 
     public static void gridGenFromString(String data)

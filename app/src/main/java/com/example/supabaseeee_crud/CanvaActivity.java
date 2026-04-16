@@ -24,6 +24,8 @@ public class CanvaActivity extends AppCompatActivity {
 
     float lastTouchX, lastTouchY;
 
+    GridPainter paintView;
+
     boolean canRepaint = true;
 
     CountDownTimer fpsLimiter = new CountDownTimer(30, 10) {
@@ -53,7 +55,17 @@ public class CanvaActivity extends AppCompatActivity {
 
     protected void update()
     {
+        GridWorldData.update();
         updateCaller.start();
+
+        if (canRepaint)
+        {
+            // tell the view to redraw itself
+            paintView.invalidate();
+
+            canRepaint = false;
+            fpsLimiter.start();
+        }
     }
 
     @Override
@@ -69,7 +81,7 @@ public class CanvaActivity extends AppCompatActivity {
 
         View view = findViewById(R.id.canvaLayout);
 
-        GridPainter paintView = new GridPainter(this);
+        paintView = new GridPainter(this);
 
         view.setOnTouchListener(new View.OnTouchListener() {
 
@@ -131,7 +143,9 @@ public class CanvaActivity extends AppCompatActivity {
         }
         GridWorldData.gridGenFromString(buf.toString());
 
-
+        GridEntityRoamer roamer = new GridEntityRoamer(1, 2);
+        roamer.speed = 1f;
+        roamer.moveTo(new TransformI2D(4, 4));
 
         relativeLayout.addView(paintView);
 

@@ -1,6 +1,8 @@
 package com.example.supabaseeee_crud;
 
 
+import android.util.Log;
+
 enum GridEntityStatus
 {
 	Idle,
@@ -17,22 +19,31 @@ public class GridEntity {
 	// how many tiles per second the entity travels
 	float speed;
 
-	TransformI2D current_transform;
+	TransformI2D current_transform = new TransformI2D();
 
-	TransformI2D movement_initial_transform;
-	TransformI2D movement_target_transform;
+	TransformI2D movement_initial_transform = new TransformI2D();
+	TransformI2D movement_target_transform = new TransformI2D();
 	long movementInitTime;
 
 	// the position in terms of grid cells where the entity should be drawn
-	Transform2D display_transform;
+	public Transform2D display_transform = new Transform2D();
 
 
+	public GridEntity()
+	{
+		GridWorldData.entities.add(this);
+	}
+
+	public void Destroy()
+	{
+		GridWorldData.entities.remove(this);
+	}
 
 	public boolean value_very_close(float value, float target) {return value > target - 0.1f && value < target + 0.1f;}
 
 	public boolean isMoving()
 	{
-		return ! display_transform.isApproxEqual(movement_target_transform);
+		return status == GridEntityStatus.MovementOngoing;
 	}
 
 	public boolean moveTo(TransformI2D position)
@@ -45,6 +56,8 @@ public class GridEntity {
 		status = GridEntityStatus.MovementOngoing;
 
 		movementInitTime = System.nanoTime();
+
+		Log.d("GridEntity", "Started movement");
 
 		return true;
 	}
@@ -64,12 +77,13 @@ public class GridEntity {
 
 		if (t > 1)
 		{
+			Log.d("GridEntity", "Finished movement");
 			movement_target_transform.toTransform2D(display_transform);
 			status = GridEntityStatus.Idle;
 			return;
 		}
 
-		display_transform.x = (float)((diff.x) * t);
-		display_transform.y = (float)((diff.y) * t);
+		display_transform.x = movement_initial_transform.x + (float)((diff.x) * t);
+		display_transform.y = movement_initial_transform.y + (float)((diff.y) * t);
 	}
 }
