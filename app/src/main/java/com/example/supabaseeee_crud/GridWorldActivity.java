@@ -2,7 +2,7 @@ package com.example.supabaseeee_crud;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
+import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class CanvaActivity extends AppCompatActivity {
+public class GridWorldActivity extends AppCompatActivity {
 
     private RelativeLayout relativeLayout;
 
@@ -26,9 +26,10 @@ public class CanvaActivity extends AppCompatActivity {
 
     GridPainter paintView;
 
-    boolean canRepaint = true;
+    // allow the game logic to run for one tick or not. Set to false at the end of every tick, and depend on a timer to be set back to true.
+    boolean canTick = true;
 
-    CountDownTimer fpsLimiter = new CountDownTimer(30, 10) {
+    CountDownTimer fpsTimer = new CountDownTimer(60, 10) {
 
         @Override
         public void onTick(long l) {
@@ -36,36 +37,29 @@ public class CanvaActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onFinish() {
-            canRepaint = true;
-        }
-    };
-
-    CountDownTimer updateCaller = new CountDownTimer(30, 10) {
-        @Override
-        public void onFinish() {
+        public void onFinish()
+        {
+            this.start();
+            while (! canTick)
+            {
+                SystemClock.sleep(10);
+            }
+            canTick = false;
             update();
-        }
-
-        @Override
-        public void onTick(long l) {
-
+            canTick = true;
         }
     };
+
+
 
     protected void update()
     {
+
         GridWorldData.update();
-        updateCaller.start();
 
-        if (canRepaint)
-        {
-            // tell the view to redraw itself
-            paintView.invalidate();
+        // tell the view to redraw itself
+        paintView.invalidate();
 
-            canRepaint = false;
-            fpsLimiter.start();
-        }
     }
 
     @Override
@@ -110,15 +104,6 @@ public class CanvaActivity extends AppCompatActivity {
                         lastTouchY = event.getY();
 
 
-                        if (canRepaint)
-                        {
-                            // tell the view to redraw itself
-                            painter.invalidate();
-
-                            canRepaint = false;
-                            fpsLimiter.start();
-                        }
-
                         return true;
                     }
                 }
@@ -149,14 +134,13 @@ public class CanvaActivity extends AppCompatActivity {
 
         relativeLayout.addView(paintView);
 
-        updateCaller.start();
+        fpsTimer.start();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        updateCaller.cancel();
-        fpsLimiter.cancel();
+        fpsTimer.cancel();
     }
 }

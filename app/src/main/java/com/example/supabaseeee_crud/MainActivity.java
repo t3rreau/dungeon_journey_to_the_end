@@ -1,6 +1,5 @@
 package com.example.supabaseeee_crud;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -9,21 +8,12 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
 import android.view.View;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.supabaseeee_crud.databinding.ActivityMainBinding;
 
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,8 +23,6 @@ import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
@@ -68,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         gotoCanva.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(getApplicationContext(), CanvaActivity.class);
+                Intent myIntent = new Intent(getApplicationContext(), GridWorldActivity.class);
                 startActivity(myIntent);
             }
         });
