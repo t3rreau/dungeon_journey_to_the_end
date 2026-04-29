@@ -33,7 +33,7 @@ public final class GraphicsLoader
 
 	private static void loadImageFromResources(String imageName, AssetManager assetManager)
 	{
-		Log.d("GraphicsLoader", "Loading a new bitmap");
+		Log.d("GraphicsLoader", "Loading a new bitmap : " + imageName);
 		try
 		{
 
@@ -46,6 +46,19 @@ public final class GraphicsLoader
 		}
 		catch (Exception e)
 		{
+			try
+			{
+				InputStream istr = assetManager.open("graphics/" + "noimg.png");
+				Bitmap bitmap = BitmapFactory.decodeStream(istr);
+				istr.close();
+
+				bitmaps.put(imageName, bitmap);
+				Log.d("GraphicsLoader", "Loaded a new placeholder bitmap");
+			}
+			catch (Exception e2)
+			{
+				e2.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 	}

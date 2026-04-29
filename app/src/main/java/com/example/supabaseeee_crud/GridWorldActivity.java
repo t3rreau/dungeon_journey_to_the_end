@@ -66,7 +66,8 @@ public class GridWorldActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_canva);
+        // setContentView(R.layout.activity_canva);
+        /*
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.canvaLayout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -74,6 +75,8 @@ public class GridWorldActivity extends AppCompatActivity {
         });
 
         View view = findViewById(R.id.canvaLayout);
+
+
 
         paintView = new GridPainter(this);
 
@@ -135,6 +138,10 @@ public class GridWorldActivity extends AppCompatActivity {
         relativeLayout.addView(paintView);
 
         fpsTimer.start();
+
+         */
+
+        setContentView(new GridWorld(this));
     }
 
     @Override
