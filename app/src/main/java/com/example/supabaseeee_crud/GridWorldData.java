@@ -78,7 +78,7 @@ public final class GridWorldData {
             entities.sort(new Comparator<GridEntity>() {
                 @Override
                 public int compare(GridEntity o1, GridEntity o2) {
-                    return o1.current_transform.y - o2.current_transform.y;
+                    return o1.displayLayerY - o2.displayLayerY;
                 }
             });
         }

@@ -19,6 +19,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.EnumMap;
 
@@ -139,8 +142,9 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 
 		GridWorldData.gridGenFromString(buf.toString());
 
-		GridEntityRoamer roamer = new GridEntityRoamer(1, 2);
+		GridEntityRoamer roamer = new GridEntityRoamer(2, 2);
 		roamer.speed = 1f;
+		roamer.setPatrolPath(new ArrayList<>(Arrays.asList(new TransformI2D(2, 2), new TransformI2D(4, 2), new TransformI2D(4, 4), new TransformI2D(4, 2), new TransformI2D(2, 2))));
 		roamer.moveTo(new TransformI2D(4, 4));
 	}
 
@@ -154,8 +158,6 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 		tileRect = new Rect(0, 0, tilePlaceholder.getWidth(), tilePlaceholder.getHeight());
 		tileRect.top = 0; tileRect.bottom = tilePlaceholder.getHeight();
 		tileRect.left = 0; tileRect.right = tilePlaceholder.getWidth();
-
-		destRect = new Rect(); // allocate the destrect object
 
 		int cellScreenSize = (getRight() - getLeft()) / 15;
 		if (cellScreenSize % 2 == 1) cellScreenSize ++;
