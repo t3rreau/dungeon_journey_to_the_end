@@ -4,6 +4,10 @@ import android.util.Log;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public final class GridWorldData {
 
@@ -32,6 +36,7 @@ public final class GridWorldData {
     private static List2D<StaticStructureID> gridStaticStructures = new List2D<StaticStructureID>(0, 0, StaticStructureID.VOID);
 
     public static ArrayList<GridEntity> entities = new ArrayList<GridEntity>();
+    static boolean shouldSortEntities = true;
 
 
     public static void gridGenFromString(String data)
@@ -67,6 +72,15 @@ public final class GridWorldData {
         for (int i = 0; i < entities.size(); i++)
         {
             entities.get(i).update();
+        }
+
+        if (shouldSortEntities) {
+            entities.sort(new Comparator<GridEntity>() {
+                @Override
+                public int compare(GridEntity o1, GridEntity o2) {
+                    return o1.current_transform.y - o2.current_transform.y;
+                }
+            });
         }
     }
 

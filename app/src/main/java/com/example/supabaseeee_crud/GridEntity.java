@@ -1,6 +1,9 @@
 package com.example.supabaseeee_crud;
 
 
+import static java.lang.Math.ceil;
+import static java.lang.Math.round;
+
 import android.util.Log;
 
 enum GridEntityStatus
@@ -70,10 +73,10 @@ public class GridEntity {
 		TransformI2D diff = new TransformI2D();
 		TransformI2D.Substract(movement_target_transform, movement_initial_transform, diff);
 
-		float movement_lenght = (float)Math.sqrt(Math.pow(diff.x, 2)  + Math.pow(diff.y, 2));
+		float movement_length = (float)Math.sqrt(Math.pow(diff.x, 2)  + Math.pow(diff.y, 2));
 
 		// 0 to 1 representing progress of the movement from initial to intended position
-		double t = ((elapsed_time / 1000000000d) * speed) / movement_lenght;
+		double t = ((elapsed_time / 1000000000d) * speed) / movement_length;
 
 		if (t > 1)
 		{
@@ -85,5 +88,15 @@ public class GridEntity {
 
 		display_transform.x = movement_initial_transform.x + (float)((diff.x) * t);
 		display_transform.y = movement_initial_transform.y + (float)((diff.y) * t);
+
+		current_transform.x = round(display_transform.x);
+		int newTransformY = round(display_transform.y + 0.5f); // important change to avoid getting hidden by the floor
+
+		if (current_transform.y != newTransformY)
+		{
+			GridWorldData.update();
+		}
+
+		current_transform.y = newTransformY;
 	}
 }

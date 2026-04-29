@@ -160,9 +160,10 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 		int cellScreenSize = (getRight() - getLeft()) / 15;
 		if (cellScreenSize % 2 == 1) cellScreenSize ++;
 
-		for (int x = 0; x < GridWorldData.getWidth(); x++)
+		int entitiesCounter = 0;
+		for (int y = 0; y < GridWorldData.getHeight(); y++)
 		{
-			for (int y = 0; y < GridWorldData.getHeight(); y++)
+			for (int x = 0; x < GridWorldData.getWidth(); x++)
 			{
 				StaticStructureID structureID = GridWorldData.getCell(x, y);
 
@@ -177,19 +178,33 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 
 				canvas.drawBitmap(img, tileRect, destRect, null);
 			}
+
+			// draws all the entities that are at this y level
+			for (; entitiesCounter < GridWorldData.entities.size(); entitiesCounter++)
+			{
+				GridEntity entity = GridWorldData.entities.get(entitiesCounter);
+
+				if (entity.current_transform.y > y)
+				{
+					break; // the list is sorted in ascending y order, so if the entity has a greater y we should write it later.
+				}
+
+				float entityX = entity.display_transform.x;
+				float entityY = entity.display_transform.y;
+
+				destRect.bottom = (int)(getTop() + entityY * cellScreenSize + (cellScreenSize / 2f) * 3 + cameraY);
+				destRect.left = (int)(getLeft() + entityX * cellScreenSize - cellScreenSize / 2f + cameraX);
+				destRect.top = (int)(getTop() + entityY * cellScreenSize - cellScreenSize / 2f + cameraY);
+				destRect.right = (int)(getLeft() + entityX * cellScreenSize + cellScreenSize / 2f + cameraX);
+
+				canvas.drawBitmap(entityPlaceholder, tileRect, destRect, null);
+			}
+
 		}
 
 		for (int i = 0; i < GridWorldData.entities.size(); i++)
 		{
-			float x = GridWorldData.entities.get(i).display_transform.x;
-			float y = GridWorldData.entities.get(i).display_transform.y;
 
-			destRect.bottom = (int)(getTop() + y * cellScreenSize + (cellScreenSize / 2f) * 3 + cameraY);
-			destRect.left = (int)(getLeft() + x * cellScreenSize - cellScreenSize / 2f + cameraX);
-			destRect.top = (int)(getTop() + y * cellScreenSize - cellScreenSize / 2f + cameraY);
-			destRect.right = (int)(getLeft() + x * cellScreenSize + cellScreenSize / 2f + cameraX);
-
-			canvas.drawBitmap(entityPlaceholder, tileRect, destRect, null);
 		}
 
 		// invalidate(); // DO NOT DO THIS YOU CANNOT DO THAT FROM A THREAD
