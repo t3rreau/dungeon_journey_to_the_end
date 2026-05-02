@@ -15,6 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SUPABASEEEE_CRUD">
         <activity
+            android:name=".LeaderboardActivity"
+            android:screenOrientation="landscape"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="landscape"
+            android:exported="false" />
+        <activity
             android:name=".OptionActivity"
             android:exported="false"
             android:screenOrientation="landscape"

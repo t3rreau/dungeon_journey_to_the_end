@@ -63,6 +63,26 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(myIntent);
             }
         });
+
+        Button button = findViewById(R.id.button_option);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(getApplicationContext(), OptionActivity.class);
+                startActivity(myIntent);
+            }
+        });
+
+        button = findViewById(R.id.button_account);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(myIntent);
+            }
+        });
     }
     private void loadProducts(){
         SupabaseClient.getALL(new Callback() {

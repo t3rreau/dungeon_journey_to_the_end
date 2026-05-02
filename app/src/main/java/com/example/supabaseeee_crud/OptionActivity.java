@@ -27,12 +27,7 @@ public class OptionActivity extends AppCompatActivity {
 		binding = ActivityOptionBinding.inflate(getLayoutInflater());
 		setContentView(binding.getRoot());
 
-		setSupportActionBar(binding.toolbar);
-
-		NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_option);
-		appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-		NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
+		/*
 		binding.fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -41,6 +36,8 @@ public class OptionActivity extends AppCompatActivity {
 						.setAction("Action", null).show();
 			}
 		});
+
+		 */
 	}
 
 	@Override
