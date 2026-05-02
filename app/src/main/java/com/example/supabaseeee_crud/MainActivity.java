@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
+        /*
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,7 +52,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button gotoCanva = findViewById(R.id.btn_goto_canva);
+         */
+
+        Button gotoCanva = findViewById(R.id.button_play);
 
         gotoCanva.setOnClickListener(new View.OnClickListener() {
             @Override

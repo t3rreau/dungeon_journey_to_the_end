@@ -1,11 +1,51 @@
-<resources>
-    <string name="app_name">SUPABASEEEE_CRUD</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" translatable="false">Dungeon Journey</string>
+
+
+    <string name="play">Play</string>
+    <string name="options">Options</string>
+    <string name="account">Account</string>
+    <string name="leaderboard">Leaderboard</string>
+
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+
+    <string name="volume">Volume</string>
+    <string name="music">Music</string>
+    <string name="sfx">Sound Effects</string>
+    <string name="language">Language</string>
+    <string name="french">Français</string>
+    <string name="english">English</string>
+
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+
+    <string name="filter_by">Filter by:</string>
+    <string name="top_global">Global Top 10</string>
+    <string name="top_friends">Friends Top</string>
+
+    <!-- Données factices pour faire joli en attendant la DB -->
+    <string name="dummy_leaderboard_data">
+        1. DarkKnight99 - 02:14\n
+        2. ElvenArcher - 02:45\n
+        3. MageFire - 03:10\n
+        4. RogueShadow - 03:22\n
+        5. TankBreaker - 04:05\n
+        6. You - 04:12\n
+        7. HealerLife - 05:30
+
+        <!-- Ce tableau va remplir le menu déroulant -->
+        <string-array name="leaderboard_filters" tools:ignore="InconsistentArrays">
+            <item>@string/top_global</item>
+            <item>@string/top_friends</item>
+        </string-array>
+    </string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
@@ -43,5 +83,4 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
-    <string name="title_activity_canvas">canvas_activity</string>
 </resources>

@@ -1,0 +1,34 @@
+<resources>
+    <string name="play">Jouer</string>
+    <string name="options">Options</string>
+    <string name="account">Compte</string>
+    <string name="leaderboard">Classement</string>
+
+    <string name="volume">Volume</string>
+    <string name="music">Musique</string>
+    <string name="sfx">Effets sonores</string>
+    <string name="language">Langue</string>
+    <string name="french">Français</string>
+    <string name="english">English</string>
+
+
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="password">Mot de passe</string>
+    <string name="login">Connexion</string>
+    <string name="register">S\'inscrire</string>
+
+    <string name="filter_by">Filtrer par :</string>
+    <string name="top_global">Top 10 Mondial</string>
+    <string name="top_friends">Classement Amis</string>
+
+    <string name="dummy_leaderboard_data">
+        1. ChevalierNoir99 - 02:14\n
+        2. ArcherElfe - 02:45\n
+        3. MageDeFeu - 03:10\n
+        4. OmbreVoleuse - 03:22\n
+        5. BriseArmure - 04:05\n
+        6. Vous - 04:12\n
+        7. VieDeSoigneur - 05:30
+    </string>
+</resources>
+
