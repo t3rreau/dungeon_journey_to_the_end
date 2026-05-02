@@ -84,36 +84,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void loadProducts(){
-        SupabaseClient.getALL(new Callback() {
 
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if(response.isSuccessful()){
-                    try {
-                        JSONArray array = new JSONArray(response.body().string());
 
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject obj = array.getJSONObject(i);
-                            productList.add(new Product(obj.getInt("id"),
-                                    obj.getString("name"),
-                                    obj.getDouble("price")));
-                        }
-                        runOnUiThread(() -> {
-                            adapter.notifyDataSetChanged();
-                        });
-                    }
-                        catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
-            }
-        });
-        loadProducts();
-    }
 }

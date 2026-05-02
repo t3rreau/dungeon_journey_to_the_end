@@ -8,8 +8,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 public class SupabaseClient {
-    private static final String SUPABASE_URL = "https://tyalgnkfxuskdjubvinm.supabase.co";
-    private static final String API_KEY = "sb_publishable_9LDLmdCgyH78W6J61LIQGQ_EYvnq7J_";
+    private static final String SUPABASE_URL = "https://ssdacwlhutmamdmoyvqc.supabase.co";
+    private static final String API_KEY = "sb_publishable_2n6G8xjPykpriI6wjloqzA_x2ghR8tI";
     private static final String BASE_URL = SUPABASE_URL + "/rest/v1/products";
     private static final OkHttpClient client = new OkHttpClient();
 
