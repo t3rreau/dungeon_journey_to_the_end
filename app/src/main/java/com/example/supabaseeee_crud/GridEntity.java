@@ -15,7 +15,7 @@ enum GridEntityStatus
 }
 
 /**
- * Represent an entity that that can be drawn and can move on the grid
+ * Represent an entity that that can be drawn in the grid world and can move on the grid
  */
 public class GridEntity {
 
@@ -38,16 +38,22 @@ public class GridEntity {
 	ArrayList<TransformI2D> patrolPath = new ArrayList<>();
 	int patrolIndex = 0;
 
-	public GridEntity(int x_, int y_)
+	String spritePath;
+
+	public GridEntity(int x_, int y_, String spritePath_)
 	{
 		current_transform.x = x_;
 		current_transform.y = y_;
 		display_transform.x = x_;
 		display_transform.y = y_;
 
+		Log.d("Entity", "Created with coords " + current_transform.toString());
+
 		displayLayerY = y_;
 
 		GridWorldData.entities.add(this);
+
+		spritePath = spritePath_;
 	}
 
 	public GridEntity()
@@ -55,10 +61,12 @@ public class GridEntity {
 		GridWorldData.entities.add(this);
 	}
 
-	public void Destroy()
+	public void destroy()
 	{
 		GridWorldData.entities.remove(this);
 	}
+
+	public String getSpritePath() {return spritePath;}
 
 	public boolean value_very_close(float value, float target) {return value > target - 0.1f && value < target + 0.1f;}
 
@@ -71,6 +79,8 @@ public class GridEntity {
 	{
 		if (isMoving()) return false;
 
+		Log.d("Entity", "Started movement at " + current_transform.toString());
+
 		position.copyTo(movement_target_transform);
 		current_transform.copyTo(movement_initial_transform);
 
@@ -78,7 +88,7 @@ public class GridEntity {
 
 		movementInitTime = System.nanoTime();
 
-		Log.d("GridEntity", "Started movement");
+		Log.d("GridEntity", "Started movement going from " + movement_initial_transform.toString() + " to " + movement_target_transform.toString());
 
 		return true;
 	}
@@ -86,7 +96,7 @@ public class GridEntity {
 	public void setPatrolPath(ArrayList<TransformI2D> path)
 	{
 		patrolPath = path;
-		patrolIndex = patrolPath.size();
+		patrolIndex = 0;
 	}
 
 	public void update()
@@ -105,12 +115,20 @@ public class GridEntity {
 	{
 		long elapsed_time = System.nanoTime() - movementInitTime;
 		TransformI2D diff = new TransformI2D();
-		TransformI2D.Substract(movement_target_transform, movement_initial_transform, diff);
+		TransformI2D.substract(movement_target_transform, movement_initial_transform, diff);
 
 		float movement_length = (float)Math.sqrt(Math.pow(diff.x, 2)  + Math.pow(diff.y, 2));
 
 		// 0 to 1 representing progress of the movement from initial to intended position
 		double t = ((elapsed_time / 1000000000d) * speed) / movement_length;
+
+		boolean movementFinished = false;
+		if (t >= 1)
+		{
+			// the movement will be stopped at the end of this iteration
+			movementFinished = true;
+			t = 1; // avoids overshooting destination
+		}
 
 		display_transform.x = movement_initial_transform.x + (float)((diff.x) * t);
 		display_transform.y = movement_initial_transform.y + (float)((diff.y) * t);
@@ -127,23 +145,23 @@ public class GridEntity {
 
 		displayLayerY = newDisplayY;
 
-		if (t > 1)
+		if (movementFinished)
 		{
+			// stops the ongoing movement
 			Log.d("GridEntity", "Finished movement");
 			movement_target_transform.toTransform2D(display_transform);
 			status = GridEntityStatus.Idle;
-			return;
 		}
 	}
 
-	// if possible, update the patrol index
+	/** Moves to the point contained at the current patrol index, then increment it */
 	protected void updatePatrol()
 	{
 		if (patrolPath.isEmpty()) return;
 
+		moveTo(patrolPath.get(patrolIndex));
+
 		patrolIndex ++;
 		if (patrolIndex >= patrolPath.size()) patrolIndex = 0;
-
-		moveTo(patrolPath.get(patrolIndex));
 	}
 }

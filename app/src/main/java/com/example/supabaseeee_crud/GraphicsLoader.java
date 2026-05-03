@@ -8,12 +8,15 @@ import android.util.Log;
 import java.io.InputStream;
 import java.util.HashMap;
 
+/**
+ * Class responsible for storing bitmaps in memory and pre-resizing them
+ */
 public final class GraphicsLoader
 {
 	private GraphicsLoader() {}
 
 	/**
-	 * Represents all the images already
+	 * Represents all the images already loaded
 	 */
 	private static HashMap<String, Bitmap> bitmaps = new HashMap<String, Bitmap>();
 

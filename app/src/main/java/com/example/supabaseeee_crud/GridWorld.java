@@ -56,7 +56,7 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 		surfaceHolder.addCallback(this);
 
 		tilePlaceholder = getTileBitmap(StaticStructureID.VOID);
-		entityPlaceholder = GraphicsLoader.requestBitmap("roamer_down.png", getContext().getAssets());
+		entityPlaceholder = GraphicsLoader.requestBitmap("darkguy_down.png", getContext().getAssets());
 
 		/*
 		setOnTouchListener(new View.OnTouchListener() {
@@ -142,10 +142,9 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 
 		GridWorldData.gridGenFromString(buf.toString());
 
-		GridEntityRoamer roamer = new GridEntityRoamer(2, 2);
+		GridEntityRoamer roamer = new GridEntityRoamer(2, 2, "darkguy_down.png");
 		roamer.speed = 1f;
 		roamer.setPatrolPath(new ArrayList<>(Arrays.asList(new TransformI2D(2, 2), new TransformI2D(4, 2), new TransformI2D(4, 4), new TransformI2D(4, 2), new TransformI2D(2, 2))));
-		roamer.moveTo(new TransformI2D(4, 4));
 	}
 
 	protected void drawWorld(Canvas canvas)
@@ -199,7 +198,7 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 				destRect.top = (int)(getTop() + entityY * cellScreenSize - cellScreenSize / 2f + cameraY);
 				destRect.right = (int)(getLeft() + entityX * cellScreenSize + cellScreenSize / 2f + cameraX);
 
-				canvas.drawBitmap(entityPlaceholder, tileRect, destRect, null);
+				canvas.drawBitmap(GraphicsLoader.requestBitmap(entity.getSpritePath(), getContext().getAssets()), tileRect, destRect, null);
 			}
 
 		}

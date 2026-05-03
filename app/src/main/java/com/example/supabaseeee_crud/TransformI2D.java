@@ -32,9 +32,14 @@ public class TransformI2D
 		transform.y = y;
 	}
 
-	public static void Substract(TransformI2D initial, TransformI2D other, TransformI2D output)
+	public static void substract(TransformI2D initial, TransformI2D other, TransformI2D output)
 	{
 		output.x = initial.x - other.x;
 		output.y = initial.y - other.y;
+	}
+
+	public String toString()
+	{
+		return "(" + x + ", " + y + ")";
 	}
 };

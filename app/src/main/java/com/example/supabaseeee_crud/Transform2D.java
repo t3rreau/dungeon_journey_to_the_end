@@ -38,9 +38,14 @@ public class Transform2D
 		transform.y = y;
 	}
 
-	public static void Substract(Transform2D initial, Transform2D other, Transform2D output)
+	public static void substract(Transform2D initial, Transform2D other, Transform2D output)
 	{
 		output.x = initial.x - other.x;
 		output.y = initial.y - other.y;
+	}
+
+	public String toString()
+	{
+		return "(" + x + ", " + y + ")";
 	}
 };
