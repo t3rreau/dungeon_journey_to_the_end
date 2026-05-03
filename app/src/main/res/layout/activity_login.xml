@@ -24,7 +24,6 @@
         android:id="@+id/editTextUsername"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
         android:hint="@string/username"
         android:inputType="textPersonName"
         android:minHeight="48dp"
@@ -46,6 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextUsername" />
 
     <!-- Bouton Login (Connexion) -->
+
     <Button
         android:id="@+id/buttonLogin"
         android:layout_width="0dp"

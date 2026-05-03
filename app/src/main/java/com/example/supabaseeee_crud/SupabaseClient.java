@@ -10,17 +10,20 @@ import okhttp3.RequestBody;
 public class SupabaseClient {
     private static final String SUPABASE_URL = "https://ssdacwlhutmamdmoyvqc.supabase.co";
     private static final String API_KEY = "sb_publishable_2n6G8xjPykpriI6wjloqzA_x2ghR8tI";
-    private static final String BASE_URL = SUPABASE_URL + "/rest/v1/products";
+    private static final String BASE_URL = SUPABASE_URL + "/rest/v1/scores";
     private static final OkHttpClient client = new OkHttpClient();
 
     // Token de l'utilisateur connecté
-    private static String userToken = null;
+    private static String userToken = "";
+    private static String userName = "";
 
     public static void setUserToken(String token) {
         userToken = token;
     }
 
     public static String getUserToken() {return userToken;}
+
+    public static void setUserName(String name) {userName = name;}
 
     private static Request.Builder base(String url){
         Request.Builder builder = new  Request.Builder()
@@ -71,6 +74,18 @@ public class SupabaseClient {
             JSONObject json = new JSONObject();
             json.put("name", name);
             json.put("price", price);
+            RequestBody body = RequestBody.create(json.toString(), MediaType.parse("application/json"));
+            Request request = base(BASE_URL).post(body).build();
+            client.newCall(request).enqueue(callback);
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    public static void insertScore(long time_ms, Callback callback) {
+        if (userToken.isEmpty()) return;
+        try {
+            JSONObject json = new JSONObject();
+            json.put("displayName", userName);
+            json.put("time", time_ms);
             RequestBody body = RequestBody.create(json.toString(), MediaType.parse("application/json"));
             Request request = base(BASE_URL).post(body).build();
             client.newCall(request).enqueue(callback);

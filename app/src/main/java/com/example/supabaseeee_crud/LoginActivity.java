@@ -61,39 +61,31 @@ public class LoginActivity extends AppCompatActivity {
 					}
 
 					@Override
-					public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException
-					{
+					public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
 						String data = response.body().string();
 						Log.d("Account", "received data : " + data);
 
-						try
-						{
+						try {
 							JSONObject json = new JSONObject(data);
 
-							if (json.has("access_token"))
-							{
+							if (json.has("access_token")) {
 								String token = json.getString("access_token");
 								SupabaseClient.setUserToken(token);
-							}
-							else
-							{
-								if (json.has("code"))
-								{
+							} else {
+								if (json.has("code")) {
 									String code = json.getString("code");
 									Log.d("Account", "cannot register user");
-								}
-								else
-								{
+								} else {
 									Log.d("Account", "cannot register user");
 								}
 							}
-						}
-						catch (Exception e)
-						{
+						} catch (Exception e) {
 							e.printStackTrace();
 						}
 					}
 				});
+			}
+		});
 
 		buttonSignUp = findViewById(R.id.buttonRegister);
 
