@@ -38,8 +38,19 @@ public class TransformI2D
 		output.y = initial.y - other.y;
 	}
 
+	public void add(TransformI2D other)
+	{
+		x += other.x;
+		y += other.y;
+	}
+
 	public String toString()
 	{
 		return "(" + x + ", " + y + ")";
+	}
+
+	public static float getDistance(TransformI2D t1, TransformI2D t2)
+	{
+		return (float)Math.sqrt(Math.pow(t1.x - t2.x, 2) + Math.pow(t1.y - t2.y, 2));
 	}
 };

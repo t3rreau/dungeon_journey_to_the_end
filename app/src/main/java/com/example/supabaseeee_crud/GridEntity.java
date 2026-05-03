@@ -54,6 +54,8 @@ public class GridEntity {
 		GridWorldData.entities.add(this);
 
 		spritePath = spritePath_;
+
+		status = GridEntityStatus.Idle;
 	}
 
 	public GridEntity()
@@ -79,7 +81,7 @@ public class GridEntity {
 	{
 		if (isMoving()) return false;
 
-		Log.d("Entity", "Started movement at " + current_transform.toString());
+		if (GridWorldData.getCell(position.x, position.y) == StaticStructureID.BASIC_WALL) return false;
 
 		position.copyTo(movement_target_transform);
 		current_transform.copyTo(movement_initial_transform);
@@ -91,6 +93,14 @@ public class GridEntity {
 		Log.d("GridEntity", "Started movement going from " + movement_initial_transform.toString() + " to " + movement_target_transform.toString());
 
 		return true;
+	}
+
+	public boolean moveToRelative(TransformI2D addedPosition)
+	{
+		TransformI2D absPos = new TransformI2D();
+		current_transform.copyTo(absPos);
+		absPos.add(addedPosition);
+		return moveTo(absPos);
 	}
 
 	public void setPatrolPath(ArrayList<TransformI2D> path)

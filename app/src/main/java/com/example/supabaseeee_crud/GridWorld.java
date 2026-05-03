@@ -50,6 +50,9 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 	/** Camera position, in pixels */
 	int cameraX = 0, cameraY = 0;
 
+	/** Player sprite */
+	GridEntityPlayer playerGridEntity = null;
+
 	public GridWorld(Context context)
 	{
 		super(context);
@@ -57,7 +60,7 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 		SurfaceHolder surfaceHolder = getHolder();
 		surfaceHolder.addCallback(this);
 
-		/*
+
 		setOnTouchListener(new View.OnTouchListener() {
 
 			float lastTouchX, lastTouchY;
@@ -71,6 +74,8 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 						lastTouchX = event.getX();
 						lastTouchY = event.getY();
 
+						uiFingerDown(new TransformI2D((int)lastTouchX, (int)lastTouchY));
+
 						return true;
 					}
 
@@ -78,8 +83,8 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 						float deltaX = event.getX() - lastTouchX;
 						float deltaY = event.getY() - lastTouchY;
 
-						cameraX += (int)deltaX;
-						cameraY += (int)deltaY;
+						// cameraX += (int)deltaX;
+						// cameraY += (int)deltaY;
 
 						lastTouchX = event.getX();
 						lastTouchY = event.getY();
@@ -91,7 +96,7 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 				return false;
 			}
 		});
-		*/
+
 
 
 		init();
@@ -119,7 +124,14 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 	{
 		// super.draw(canvas);
 
+		if (playerGridEntity != null)
+		{
+			cameraX = - (int)(playerGridEntity.display_transform.x * getTileScreenPixelSize().x) + ((getRight() - getLeft()) / 2);
+			cameraY = - (int)(playerGridEntity.display_transform.y * getTileScreenPixelSize().x) + ((getBottom() - getTop()) / 2);
+		}
+
 		drawWorld(canvas);
+		drawUI(canvas);
 		drawAverageFPS(canvas);
 	}
 
@@ -141,9 +153,69 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 
 		GridWorldData.gridGenFromString(buf.toString());
 
+		/*
 		GridEntityRoamer roamer = new GridEntityRoamer(2, 2, "darkguy_down.png");
 		roamer.speed = 1f;
 		roamer.setPatrolPath(new ArrayList<>(Arrays.asList(new TransformI2D(2, 2), new TransformI2D(4, 2), new TransformI2D(4, 4), new TransformI2D(4, 2), new TransformI2D(2, 2))));
+
+		 */
+
+		respawnPlayer();
+	}
+
+	// Player-related funcs
+
+	protected void respawnPlayer()
+	{
+		if (playerGridEntity != null) playerGridEntity.destroy();
+		playerGridEntity = new GridEntityPlayer(1, 1, "player_down.png");
+	}
+
+
+
+	// ui-related functions
+
+	protected int getUiSizeRef() {return (getRight() - getLeft()) / 10;}
+	protected void uiFingerDown(TransformI2D pos)
+	{
+		int uiSizeRef = getUiSizeRef();
+
+		TransformI2D dirButtonPos = new TransformI2D(round(getRight() - uiSizeRef * 1.5f), round(getTop() + uiSizeRef * 2f));
+
+		Log.d("FingerDown", "finger down at " + pos.toString() + " checking with " + dirButtonPos.toString());
+
+		// circle quadrants check to detect which direction button is pressed
+		if (TransformI2D.getDistance(dirButtonPos, pos) < uiSizeRef)
+		{
+			if (Math.abs(dirButtonPos.x - pos.x) > Math.abs(dirButtonPos.y - pos.y))
+			{
+				if (dirButtonPos.x - pos.x < 0)
+				{
+					// right button pressed
+					Log.d("FingerDown", "going right" + playerGridEntity.toString());
+					if (playerGridEntity != null) playerGridEntity.moveToRelative(new TransformI2D(1, 0));
+				}
+				else
+				{
+					// left button pressed
+					if (playerGridEntity != null) playerGridEntity.moveToRelative(new TransformI2D(-1, 0));
+				}
+			}
+			else
+			{
+				if (dirButtonPos.y - pos.y < 0)
+				{
+					// down button pressed
+					if (playerGridEntity != null) playerGridEntity.moveToRelative(new TransformI2D(0, 1));
+				}
+				else
+				{
+					// up button pressed
+					if (playerGridEntity != null) playerGridEntity.moveToRelative(new TransformI2D(0, -1));
+				}
+			}
+		}
+
 	}
 
 	protected TransformI2D getTileScreenPixelSize()
@@ -206,12 +278,22 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 
 		}
 
-		for (int i = 0; i < GridWorldData.entities.size(); i++)
-		{
-
-		}
-
 		// invalidate(); // DO NOT DO THIS YOU CANNOT DO THAT FROM A THREAD
+	}
+
+	protected void drawUI(Canvas canvas)
+	{
+		int uiRef = (getRight() - getLeft()) / 10;
+
+		Bitmap dirButton = GraphicsLoader.requestBitmap("dirbutton_up.png", uiRef, uiRef, getContext().getAssets());
+		if (dirButton != null) canvas.drawBitmap(dirButton, getRight() - uiRef * 2, getTop() + uiRef, null);
+		dirButton = GraphicsLoader.requestBitmap("dirbutton_right.png", uiRef, uiRef, getContext().getAssets());
+		if (dirButton != null) canvas.drawBitmap(dirButton, getRight() - uiRef * 1.5f, getTop() + uiRef * 1.5f, null);
+		dirButton = GraphicsLoader.requestBitmap("dirbutton_down.png", uiRef, uiRef, getContext().getAssets());
+		if (dirButton != null) canvas.drawBitmap(dirButton, getRight() - uiRef * 2, getTop() + uiRef * 2, null);
+		dirButton = GraphicsLoader.requestBitmap("dirbutton_left.png", uiRef, uiRef, getContext().getAssets());
+		if (dirButton != null) canvas.drawBitmap(dirButton, getRight() - uiRef * 2.5f, getTop() + uiRef * 1.5f, null);
+
 	}
 
 	protected String getTileSpritePath(StaticStructureID id)
