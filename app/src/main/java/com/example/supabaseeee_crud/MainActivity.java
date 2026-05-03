@@ -1,5 +1,6 @@
 package com.example.supabaseeee_crud;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -20,6 +21,7 @@ import com.example.supabaseeee_crud.databinding.ActivityMainBinding;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Product> productList = new ArrayList<>();
 
     private ArrayAdapter<Product> adapter;
+    // Definition of characters :
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +54,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
-        ListView ListView = findViewById(R.id.listView);
-        adapter = new ArrayAdapter<>( this,
-                android.R.layout.simple_list_item_1,
-                productList);
-        ListView.setAdapter(adapter);
+
 
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,37 +64,26 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-    }
-    private void loadProducts(){
-        SupabaseClient.getALL(new Callback() {
+// Test Fighting system
+        Personnage Hero = new Personnage("Hero", 65, 80);
+        Personnage Enemy = new Personnage( "Enemy", 28, 15);
+        ArrayList<Personnage> Combat_character_list = new ArrayList<Personnage>();
+        Combat_character_list.add(Hero);
+        Combat_character_list.add(Enemy);
+        Fighting_system.Combat(Combat_character_list);
 
+        Button fighting_button = findViewById(R.id.fighting_button);
+
+        fighting_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if(response.isSuccessful()){
-                    try {
-                        JSONArray array = new JSONArray(response.body().string());
-
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject obj = array.getJSONObject(i);
-                            productList.add(new Product(obj.getInt("id"),
-                                    obj.getString("name"),
-                                    obj.getDouble("price")));
-                        }
-                        runOnUiThread(() -> {
-                            adapter.notifyDataSetChanged();
-                        });
-                    }
-                        catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
+            public void onClick(View view) {
+                Intent myIntent = new Intent(getApplicationContext(), Fighting_interface_activity.class);
+                startActivity(myIntent);
             }
         });
-        loadProducts();
     }
+
+
+
+
 }
