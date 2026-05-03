@@ -153,12 +153,12 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 
 		GridWorldData.gridGenFromString(buf.toString());
 
-		/*
+
 		GridEntityRoamer roamer = new GridEntityRoamer(2, 2, "darkguy_down.png");
 		roamer.speed = 1f;
 		roamer.setPatrolPath(new ArrayList<>(Arrays.asList(new TransformI2D(2, 2), new TransformI2D(4, 2), new TransformI2D(4, 4), new TransformI2D(4, 2), new TransformI2D(2, 2))));
 
-		 */
+
 
 		respawnPlayer();
 	}
