@@ -3,9 +3,6 @@ package com.example.supabaseeee_crud;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
@@ -15,15 +12,7 @@ import com.example.supabaseeee_crud.databinding.ActivityMainBinding;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,12 +63,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        button = findViewById(R.id.button_account);
+        button = findViewById(R.id.button_login);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(myIntent);
+            }
+        });
+
+        button = findViewById(R.id.button_register);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(getApplicationContext(), RegisterActivity.class);
                 startActivity(myIntent);
             }
         });

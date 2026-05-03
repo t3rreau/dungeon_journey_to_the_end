@@ -10,16 +10,21 @@ import okhttp3.RequestBody;
 public class SupabaseClient {
     private static final String SUPABASE_URL = "https://ssdacwlhutmamdmoyvqc.supabase.co";
     private static final String API_KEY = "sb_publishable_2n6G8xjPykpriI6wjloqzA_x2ghR8tI";
-    private static final String BASE_URL = SUPABASE_URL + "/rest/v1/scores";
+    private static final String TABLE_SCORES_URL = SUPABASE_URL + "/rest/v1/scores";
+    private static final String TABLE_USERDATA_URL = SUPABASE_URL + "/rest/v1/userdata";
     private static final OkHttpClient client = new OkHttpClient();
 
     // Token de l'utilisateur connecté
     private static String userToken = "";
+    private static String userId = "";
     private static String userName = "";
+    private static String userPseudo = "";
 
     public static void setUserToken(String token) {
         userToken = token;
     }
+    public static void setUserId(String id) {userId = id;}
+    public static void setUserPseudo(String id) {userPseudo = id;}
 
     public static String getUserToken() {return userToken;}
 
@@ -40,11 +45,15 @@ public class SupabaseClient {
 
     // --- AUTHENTIFICATION ---
 
-    public static void signUp(String email, String password, Callback callback) {
+    public static void signUp(String email, String password, String pseudo, Callback callback) {
         try {
             JSONObject json = new JSONObject();
             json.put("email", email);
             json.put("password", password);
+            JSONObject userdata = new JSONObject();
+            userdata.put("pseudo", pseudo);
+            json.put("data", userdata);
+
             RequestBody body = RequestBody.create(json.toString(), MediaType.parse("application/json"));
             Request request = base(SUPABASE_URL + "/auth/v1/signup").post(body).build();
             client.newCall(request).enqueue(callback);
@@ -64,18 +73,19 @@ public class SupabaseClient {
 
     // --- CRUD PRODUITS ---
 
-    public static void getAll(Callback callback){
-        Request request = base(BASE_URL).get().build();
+    public static void getAllScores(Callback callback){
+        Request request = base(TABLE_SCORES_URL).get().build();
         client.newCall(request).enqueue(callback);
     }
 
-    public static void insert(String name, double price, Callback callback) {
+    public static void insertUserData(String pseudo, Callback callback) {
+        if (userId.isEmpty()) return;
         try {
             JSONObject json = new JSONObject();
-            json.put("name", name);
-            json.put("price", price);
+            json.put("uid", userId);
+            json.put("pseudo", pseudo);
             RequestBody body = RequestBody.create(json.toString(), MediaType.parse("application/json"));
-            Request request = base(BASE_URL).post(body).build();
+            Request request = base(TABLE_USERDATA_URL).post(body).build();
             client.newCall(request).enqueue(callback);
         } catch (Exception e) { e.printStackTrace(); }
     }
@@ -87,11 +97,12 @@ public class SupabaseClient {
             json.put("displayName", userName);
             json.put("time", time_ms);
             RequestBody body = RequestBody.create(json.toString(), MediaType.parse("application/json"));
-            Request request = base(BASE_URL).post(body).build();
+            Request request = base(TABLE_SCORES_URL).post(body).build();
             client.newCall(request).enqueue(callback);
         } catch (Exception e) { e.printStackTrace(); }
     }
 
+    /*
     // ... autres méthodes update/delete utilisent déjà base(url) donc elles sont OK
     public static void update(int id, String name, double price, Callback callback) {
         try {
@@ -108,4 +119,6 @@ public class SupabaseClient {
         Request request = base(BASE_URL + "?id=eq." + id).delete().build();
         client.newCall(request).enqueue(callback);
     }
+
+     */
 }

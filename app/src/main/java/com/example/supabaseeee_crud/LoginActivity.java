@@ -1,18 +1,15 @@
 package com.example.supabaseeee_crud;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import org.json.JSONObject;
 
@@ -27,8 +24,8 @@ public class LoginActivity extends AppCompatActivity {
 	private EditText widgetLogin;
 	private EditText widgetPassword;
 
-	private Button buttonSignUp;
 	private Button buttonSignIn;
+	private TextView widgetMsg;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +42,13 @@ public class LoginActivity extends AppCompatActivity {
 
 		 */
 
-		widgetLogin = findViewById(R.id.editTextUsername);
+		widgetLogin = findViewById(R.id.editTextEmail);
 		widgetPassword = findViewById(R.id.editTextPassword);
 
 		buttonSignIn = findViewById(R.id.buttonLogin);
+
+		widgetMsg = findViewById(R.id.msgLoginText);
+		updateDisplayedText("");
 
 		buttonSignIn.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -71,12 +71,25 @@ public class LoginActivity extends AppCompatActivity {
 							if (json.has("access_token")) {
 								String token = json.getString("access_token");
 								SupabaseClient.setUserToken(token);
+
+								JSONObject user = new JSONObject(json.getString("user"));
+								JSONObject userdata = new JSONObject(user.getString("user_metadata"));
+
+								String pseudo = userdata.getString("pseudo");
+								Log.d("Account", "got pseudo " + pseudo);
+								SupabaseClient.setUserPseudo(pseudo);
+
+
+
+								updateDisplayedText("logged in successfully");
 							} else {
 								if (json.has("code")) {
 									String code = json.getString("code");
 									Log.d("Account", "cannot register user");
+									updateDisplayedText("failed to login : " + code);
 								} else {
 									Log.d("Account", "cannot register user");
+									updateDisplayedText("failed to login");
 								}
 							}
 						} catch (Exception e) {
@@ -87,59 +100,22 @@ public class LoginActivity extends AppCompatActivity {
 			}
 		});
 
-		buttonSignUp = findViewById(R.id.buttonRegister);
 
-		buttonSignUp.setOnClickListener(new View.OnClickListener() {
+
+
+	}
+
+
+	protected void updateDisplayedText(String text)
+	{
+		runOnUiThread(new Runnable() {
+
 			@Override
-			public void onClick(View view) {
+			public void run() {
 
-				SupabaseClient.signUp(widgetLogin.getText().toString(), widgetPassword.getText().toString(), new Callback() {
-					@Override
-					public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
-					}
-
-					@Override
-					public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException
-					{
-						String data = response.body().string();
-						Log.d("Account", "received data : " + data);
-
-						try
-						{
-							JSONObject json = new JSONObject(data);
-
-							if (json.has("access_token"))
-							{
-								String token = json.getString("access_token");
-								SupabaseClient.setUserToken(token);
-							}
-							else
-							{
-								if (json.has("code"))
-								{
-									String code = json.getString("code");
-									if (code.equals("422"))
-									{
-										Log.d("Account", "user already registered");
-									}
-								}
-								else
-								{
-									Log.d("Account", "cannot register user");
-								}
-							}
-						}
-						catch (Exception e)
-						{
-							e.printStackTrace();
-						}
-					}
-				});
-
+				// Stuff that updates the UI
+				widgetMsg.setText(text);
 			}
 		});
-
-
 	}
 }

@@ -13,9 +13,13 @@
 
 
     <string name="username">Nom d\'utilisateur</string>
+    <string name="email">Email</string>
     <string name="password">Mot de passe</string>
     <string name="login">Connexion</string>
     <string name="register">S\'inscrire</string>
+
+    <string name="pseudo">Pseudo</string>
+    <string name="create_account">Créer le compte</string>
 
     <string name="filter_by">Filtrer par :</string>
     <string name="top_global">Top 10 Mondial</string>

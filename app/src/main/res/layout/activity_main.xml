@@ -21,22 +21,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/options"
-        app:layout_constraintBottom_toTopOf="@+id/button_account"
+        app:layout_constraintBottom_toTopOf="@+id/button_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_play" />
 
     <Button
-        android:id="@+id/button_account"
+        android:id="@+id/button_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/account"
-        app:layout_constraintBottom_toTopOf="@+id/button_leaderboard"
+        android:text="@string/login"
+        app:layout_constraintBottom_toTopOf="@+id/button_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_option" />
+
+    <Button
+        android:id="@+id/button_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/register"
+        app:layout_constraintBottom_toTopOf="@+id/button_leaderboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_login" />
 
     <Button
         android:id="@+id/button_leaderboard"
@@ -46,7 +57,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_account" />
+        app:layout_constraintTop_toBottomOf="@+id/button_register" />
 
     <TextView
         android:id="@+id/textView"

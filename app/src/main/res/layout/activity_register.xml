@@ -5,24 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="32dp"
-    tools:context=".LoginActivity">
+    tools:context=".RegisterActivity">
 
-    <!-- Titre de la page -->
     <TextView
-        android:id="@+id/textAccountTitle"
+        android:id="@+id/textRegisterTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/account"
+        android:text="@string/register"
         android:textSize="32sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/editTextEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- NOUVEAU : Champ Pseudo -->
+    <EditText
+        android:id="@+id/editTextRegPseudo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:hint="@string/pseudo"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextRegEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textRegisterTitle" />
+
     <!-- Champ Username -->
     <EditText
-        android:id="@+id/editTextEmail"
+        android:id="@+id/editTextRegEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -30,47 +44,47 @@
         android:hint="@string/email"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
+        app:layout_constraintBottom_toTopOf="@+id/editTextRegPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textAccountTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextRegPseudo" />
 
     <!-- Champ Password -->
     <EditText
-        android:id="@+id/editTextPassword"
+        android:id="@+id/editTextRegPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="24dp"
         android:hint="@string/password"
         android:inputType="textPassword"
         android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCreateAccount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextRegEmail" />
 
-    <!-- Bouton Login (Connexion) -->
+    <!-- Bouton Valider l'inscription -->
     <Button
-        android:id="@+id/buttonLogin"
+        android:id="@+id/buttonCreateAccount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:text="@string/login"
-        app:layout_constraintBottom_toTopOf="@id/msgLoginText"
+        android:text="@string/create_account"
+        app:layout_constraintBottom_toTopOf="@+id/msgRegisterText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextRegPassword" />
 
     <TextView
-        android:id="@+id/msgLoginText"
+        android:id="@+id/msgRegisterText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="xxx"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonCreateAccount" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
