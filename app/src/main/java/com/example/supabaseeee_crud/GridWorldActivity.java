@@ -24,8 +24,6 @@ public class GridWorldActivity extends AppCompatActivity {
 
     float lastTouchX, lastTouchY;
 
-    GridPainter paintView;
-
     // allow the game logic to run for one tick or not. Set to false at the end of every tick, and depend on a timer to be set back to true.
     boolean canTick = true;
 
@@ -56,9 +54,6 @@ public class GridWorldActivity extends AppCompatActivity {
     {
 
         GridWorldData.update();
-
-        // tell the view to redraw itself
-        paintView.invalidate();
 
     }
 

@@ -1,5 +1,7 @@
 package com.example.supabaseeee_crud;
 
+import static java.lang.Math.round;
+
 import android.content.Context;
 
 import android.graphics.Bitmap;
@@ -54,9 +56,6 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 
 		SurfaceHolder surfaceHolder = getHolder();
 		surfaceHolder.addCallback(this);
-
-		tilePlaceholder = getTileBitmap(StaticStructureID.VOID);
-		entityPlaceholder = GraphicsLoader.requestBitmap("darkguy_down.png", getContext().getAssets());
 
 		/*
 		setOnTouchListener(new View.OnTouchListener() {
@@ -147,37 +146,42 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 		roamer.setPatrolPath(new ArrayList<>(Arrays.asList(new TransformI2D(2, 2), new TransformI2D(4, 2), new TransformI2D(4, 4), new TransformI2D(4, 2), new TransformI2D(2, 2))));
 	}
 
+	protected TransformI2D getTileScreenPixelSize()
+	{
+		int screenWidth = getRight() - getLeft();
+		int screenHeight = getBottom() - getTop();
+
+		int tileWidth = screenWidth / 16;
+		if (tileWidth % 2 == 1) tileWidth ++;
+
+		return new TransformI2D(tileWidth, tileWidth * 2);
+	}
+
 	protected void drawWorld(Canvas canvas)
 	{
 
+		// erase the background
 		Paint backgroundPaint = new Paint();
 		backgroundPaint.setColor(ContextCompat.getColor(getContext(), R.color.black));
 		canvas.drawRect(new Rect(getLeft(), getTop(), getRight(), getBottom()), backgroundPaint);
 
-		tileRect = new Rect(0, 0, tilePlaceholder.getWidth(), tilePlaceholder.getHeight());
-		tileRect.top = 0; tileRect.bottom = tilePlaceholder.getHeight();
-		tileRect.left = 0; tileRect.right = tilePlaceholder.getWidth();
 
-		int cellScreenSize = (getRight() - getLeft()) / 15;
-		if (cellScreenSize % 2 == 1) cellScreenSize ++;
+
+		TransformI2D tileSize = getTileScreenPixelSize();
 
 		int entitiesCounter = 0;
+		TransformI2D drawPos = new TransformI2D();
 		for (int y = 0; y < GridWorldData.getHeight(); y++)
 		{
 			for (int x = 0; x < GridWorldData.getWidth(); x++)
 			{
 				StaticStructureID structureID = GridWorldData.getCell(x, y);
 
-				Bitmap img = getTileBitmap(structureID);
+				Bitmap img = GraphicsLoader.requestBitmap(getTileSpritePath(structureID), tileSize.x, tileSize.y, getContext().getAssets());
+				drawPos.x = getLeft() + x * tileSize.x - tileSize.x / 2 + cameraX;
+				drawPos.y = getTop() + y * tileSize.x - tileSize.x / 2 + cameraY;
 
-				destRect.bottom = getTop() + y * cellScreenSize + (cellScreenSize / 2) * 3 + cameraY;
-				destRect.left = getLeft() + x * cellScreenSize - cellScreenSize / 2 + cameraX;
-				destRect.top = getTop() + y * cellScreenSize - cellScreenSize / 2 + cameraY;
-				destRect.right = getLeft() + x * cellScreenSize + cellScreenSize / 2 + cameraX;
-
-				// Log.d("GridWorld", "draw at " + destRect.top + ":" + destRect.bottom + " " + destRect.left + ":" + destRect.right);
-
-				canvas.drawBitmap(img, tileRect, destRect, null);
+				if (img != null) canvas.drawBitmap(img, drawPos.x, drawPos.y, null);
 			}
 
 			// draws all the entities that are at this y level
@@ -193,12 +197,11 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 				float entityX = entity.display_transform.x;
 				float entityY = entity.display_transform.y;
 
-				destRect.bottom = (int)(getTop() + entityY * cellScreenSize + (cellScreenSize / 2f) * 3 + cameraY);
-				destRect.left = (int)(getLeft() + entityX * cellScreenSize - cellScreenSize / 2f + cameraX);
-				destRect.top = (int)(getTop() + entityY * cellScreenSize - cellScreenSize / 2f + cameraY);
-				destRect.right = (int)(getLeft() + entityX * cellScreenSize + cellScreenSize / 2f + cameraX);
+				Bitmap img = GraphicsLoader.requestBitmap(entity.getSpritePath(), tileSize.x, tileSize.y, getContext().getAssets());
+				drawPos.x = round(getLeft() + entityX * tileSize.x - tileSize.x / 2 + cameraX);
+				drawPos.y = round(getTop() + entityY * tileSize.x - tileSize.x / 2 + cameraY);
 
-				canvas.drawBitmap(GraphicsLoader.requestBitmap(entity.getSpritePath(), getContext().getAssets()), tileRect, destRect, null);
+				if (img != null) canvas.drawBitmap(img, drawPos.x, drawPos.y, null);
 			}
 
 		}
@@ -211,17 +214,21 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 		// invalidate(); // DO NOT DO THIS YOU CANNOT DO THAT FROM A THREAD
 	}
 
-	protected Bitmap getTileBitmap(StaticStructureID id)
+	protected String getTileSpritePath(StaticStructureID id)
 	{
-		if (tileBitmaps.containsKey(id))
+		switch (id)
 		{
-			return tileBitmaps.get(id);
-		}
-		else
-		{
-			Bitmap bitmap = GraphicsLoader.requestBitmap(tileFilenames.get(id), getContext().getAssets());
-			tileBitmaps.put(id, bitmap);
-			return bitmap;
+			case VOID:
+				return "noimg.png";
+
+			case GROUND:
+				return "floor.png";
+
+			case BASIC_WALL:
+				return "wall.png";
+
+			default:
+				return "noimg.png";
 		}
 	}
 
