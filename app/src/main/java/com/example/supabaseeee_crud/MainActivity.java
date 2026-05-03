@@ -82,6 +82,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(myIntent);
             }
         });
+
+        button = findViewById(R.id.button_leaderboard);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(getApplicationContext(), LeaderboardActivity.class);
+                startActivity(myIntent);
+            }
+        });
     }
 
 

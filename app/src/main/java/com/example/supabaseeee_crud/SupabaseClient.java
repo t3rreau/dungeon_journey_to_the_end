@@ -1,5 +1,7 @@
 package com.example.supabaseeee_crud;
 
+import android.util.Log;
+
 import org.json.JSONObject;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -37,7 +39,7 @@ public class SupabaseClient {
                 .addHeader("Content-Type", "application/json");
 
         // Si on a un token utilisateur, on l'utilise, sinon on utilise la clé API (anonyme)
-        String authHeader = (userToken != null) ? "Bearer " + userToken : "Bearer " + API_KEY;
+        String authHeader = (!userToken.isEmpty()) ? "Bearer " + userToken : "Bearer " + API_KEY;
         builder.addHeader("Authorization", authHeader);
 
         return builder;
@@ -75,6 +77,7 @@ public class SupabaseClient {
 
     public static void getAllScores(Callback callback){
         Request request = base(TABLE_SCORES_URL).get().build();
+        Log.d("SupabaseClient", request.toCurl());
         client.newCall(request).enqueue(callback);
     }
 

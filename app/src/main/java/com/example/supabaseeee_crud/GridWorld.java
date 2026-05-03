@@ -168,7 +168,7 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 	protected void respawnPlayer()
 	{
 		if (playerGridEntity != null) playerGridEntity.destroy();
-		playerGridEntity = new GridEntityPlayer(1, 1, "player_down.png");
+		playerGridEntity = new GridEntityPlayer(2, 2, "player_down.png");
 	}
 
 
@@ -301,7 +301,7 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 		switch (id)
 		{
 			case VOID:
-				return "noimg.png";
+				return "void.png";
 
 			case GROUND:
 				return "floor.png";
