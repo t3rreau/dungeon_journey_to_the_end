@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Skills_txt">
+
+        <item>Slice</item>
+        <item>Heal</item>
+        <item>SUMMON DIVINE JUDGEMENT!!!</item>
+        <item>Stare at him</item>
+        <item>Make a joke</item>
+        <item>Call 911</item>
+
+    </string-array>
+    <integer-array name="Skills_Damage_txt">
+        <item>5</item>
+        <item>0</item>
+        <item>999</item>
+        <item>1</item>
+        <item>67</item>
+        <item>119</item>
+
+    </integer-array>
+</resources>

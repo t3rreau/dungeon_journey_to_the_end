@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SUPABASEEEE_CRUD">
         <activity
+            android:name=".WinActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
@@ -32,6 +35,10 @@
             android:theme="@style/Theme.SUPABASEEEE_CRUD" />
         <activity
             android:name=".GridWorldActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".Fighting_interface_activity"
             android:exported="false"
             android:screenOrientation="landscape" />
         <activity

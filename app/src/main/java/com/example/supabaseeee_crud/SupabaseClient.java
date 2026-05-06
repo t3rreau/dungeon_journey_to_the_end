@@ -81,18 +81,6 @@ public class SupabaseClient {
         client.newCall(request).enqueue(callback);
     }
 
-    public static void insertUserData(String pseudo, Callback callback) {
-        if (userId.isEmpty()) return;
-        try {
-            JSONObject json = new JSONObject();
-            json.put("uid", userId);
-            json.put("pseudo", pseudo);
-            RequestBody body = RequestBody.create(json.toString(), MediaType.parse("application/json"));
-            Request request = base(TABLE_USERDATA_URL).post(body).build();
-            client.newCall(request).enqueue(callback);
-        } catch (Exception e) { e.printStackTrace(); }
-    }
-
     public static void insertScore(long time_ms, Callback callback) {
         if (userToken.isEmpty()) return;
         try {
@@ -102,6 +90,7 @@ public class SupabaseClient {
             RequestBody body = RequestBody.create(json.toString(), MediaType.parse("application/json"));
             Request request = base(TABLE_SCORES_URL).post(body).build();
             client.newCall(request).enqueue(callback);
+            Log.d("SupabaseClient", "temps envoyé");
         } catch (Exception e) { e.printStackTrace(); }
     }
 

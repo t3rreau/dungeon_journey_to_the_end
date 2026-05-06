@@ -1,5 +1,6 @@
 package com.example.supabaseeee_crud;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
@@ -22,31 +23,7 @@ public class GridWorldActivity extends AppCompatActivity {
 
     private RelativeLayout relativeLayout;
 
-    float lastTouchX, lastTouchY;
-
-    // allow the game logic to run for one tick or not. Set to false at the end of every tick, and depend on a timer to be set back to true.
-    boolean canTick = true;
-
-    CountDownTimer fpsTimer = new CountDownTimer(60, 10) {
-
-        @Override
-        public void onTick(long l) {
-
-        }
-
-        @Override
-        public void onFinish()
-        {
-            this.start();
-            while (! canTick)
-            {
-                SystemClock.sleep(10);
-            }
-            canTick = false;
-            update();
-            canTick = true;
-        }
-    };
+    GridWorld gridWorld;
 
 
 
@@ -136,13 +113,19 @@ public class GridWorldActivity extends AppCompatActivity {
 
          */
 
-        setContentView(new GridWorld(this));
+        gridWorld = new GridWorld(this, this);
+        setContentView(gridWorld);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
 
-        fpsTimer.cancel();
+    protected void switchToCombat()
+    {
+        gridWorld.stop();
+        Intent myIntent = new Intent(getApplicationContext(), Fighting_interface_activity.class);
+        startActivity(myIntent);
     }
 }

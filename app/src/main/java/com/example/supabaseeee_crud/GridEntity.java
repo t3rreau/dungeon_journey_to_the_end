@@ -14,12 +14,19 @@ enum GridEntityStatus
 	MovementOngoing,
 }
 
+enum GridEntityFaction
+{
+	player,
+	hostile,
+}
+
 /**
  * Represent an entity that that can be drawn in the grid world and can move on the grid
  */
 public class GridEntity {
 
 	GridEntityStatus status = GridEntityStatus.Idle;
+	GridEntityFaction faction = GridEntityFaction.hostile;
 
 	// how many tiles per second the entity travels
 	float speed;
@@ -119,6 +126,11 @@ public class GridEntity {
 		{
 			updateMovement();
 		}
+	}
+
+	public void afterUpdate()
+	{
+
 	}
 
 	protected void updateMovement()

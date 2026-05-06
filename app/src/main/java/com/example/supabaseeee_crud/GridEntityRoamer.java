@@ -5,5 +5,6 @@ public class GridEntityRoamer extends GridEntity
 	public GridEntityRoamer(int x, int y, String spritePath)
 	{
 		super(x, y, spritePath);
+		faction = GridEntityFaction.hostile;
 	}
 }

@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
@@ -30,7 +31,7 @@ import java.util.EnumMap;
 public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 {
 
-	GridWorldLoop loop = new GridWorldLoop(this, getHolder());
+	GridWorldLoop loop;
 
 	Bitmap tilePlaceholder;
 	Bitmap entityPlaceholder;
@@ -53,12 +54,16 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 	/** Player sprite */
 	GridEntityPlayer playerGridEntity = null;
 
-	public GridWorld(Context context)
+	GridWorldActivity activity;
+
+	public GridWorld(Context context, GridWorldActivity activity_)
 	{
 		super(context);
 
 		SurfaceHolder surfaceHolder = getHolder();
 		surfaceHolder.addCallback(this);
+
+		loop = new GridWorldLoop(this, getHolder());
 
 
 		setOnTouchListener(new View.OnTouchListener() {
@@ -97,11 +102,27 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 			}
 		});
 
-
+		activity = activity_;
 
 		init();
 
 		loop.startLoop();
+	}
+
+	public void stop()
+	{
+
+		loop.stopLoop();
+		/*
+		try {
+			loop.join(5000);
+		} catch (InterruptedException e) {
+			Log.e("GridWorld", "thread didn't join");
+		}
+		loop = null;
+		*/
+
+		GridWorldData.entities.clear();
 	}
 
 	@Override
@@ -126,6 +147,7 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 
 		if (playerGridEntity != null)
 		{
+			// center the camera on the player
 			cameraX = - (int)(playerGridEntity.display_transform.x * getTileScreenPixelSize().x) + ((getRight() - getLeft()) / 2);
 			cameraY = - (int)(playerGridEntity.display_transform.y * getTileScreenPixelSize().x) + ((getBottom() - getTop()) / 2);
 		}
@@ -168,7 +190,7 @@ public class GridWorld extends SurfaceView implements SurfaceHolder.Callback
 	protected void respawnPlayer()
 	{
 		if (playerGridEntity != null) playerGridEntity.destroy();
-		playerGridEntity = new GridEntityPlayer(2, 2, "player_down.png");
+		playerGridEntity = new GridEntityPlayer(2, 3, "player_down.png", activity);
 	}
 
 

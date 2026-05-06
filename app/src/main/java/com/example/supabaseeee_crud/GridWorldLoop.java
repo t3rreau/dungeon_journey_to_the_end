@@ -1,11 +1,13 @@
 package com.example.supabaseeee_crud;
 
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 public class GridWorldLoop  extends Thread
 {
-	private boolean isRunning = false;
+	private volatile boolean isRunning = false;
+	private volatile boolean isDone = false;
 
 	GridWorld world;
 	SurfaceHolder surfaceHolder;
@@ -18,6 +20,7 @@ public class GridWorldLoop  extends Thread
 	{
 		world = _world;
 		surfaceHolder = _surfaceHolder;
+		Log.d("thread", "new thread");
 	}
 
 	public double getAverageFPS()
@@ -30,6 +33,14 @@ public class GridWorldLoop  extends Thread
 		isRunning = true;
 		start();
 	}
+
+	public void stopLoop()
+	{
+		isRunning = false;
+		Log.d("thread", "stopped");
+	}
+
+	public boolean isDone() {return isDone;}
 
 	@Override
 	public void run()
@@ -78,7 +89,9 @@ public class GridWorldLoop  extends Thread
 			{
 				try
 				{
+					Log.d("thread", "slep");
 					sleep(sleepTime);
+					Log.d("thread", "unslep");
 				}
 				catch (InterruptedException e)
 				{
@@ -86,5 +99,9 @@ public class GridWorldLoop  extends Thread
 				}
 			}
 		}
+
+		Log.d("thread", "stopped");
+
+		isDone = true;
 	}
 }

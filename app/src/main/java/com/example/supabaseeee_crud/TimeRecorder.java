@@ -56,5 +56,9 @@ public class TimeRecorder
 				}
 			});
 		}
+		else
+		{
+			Log.e("TimeRecorder", "User is not logged in");
+		}
 	}
 }
