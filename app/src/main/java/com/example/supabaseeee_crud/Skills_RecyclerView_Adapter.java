@@ -3,6 +3,7 @@ package com.example.supabaseeee_crud;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,14 +42,23 @@ public class Skills_RecyclerView_Adapter extends RecyclerView.Adapter<Skills_Rec
         return skillsModelArrayList.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    // https://gist.github.com/grantland/cd70814fe4ac369e3e92
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // like an on create method grab all the views from our recycler_view_row layout file
         TextView SkillName;
+        private String content;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             SkillName = itemView.findViewById(R.id.idSkillName);
+            content = SkillName.getText().toString();
+        }
 
+        @Override
+        public void onClick(View view)
+        {
+            Log.d("Adapter", "onClick " + getLayoutPosition() + " " + content); // getLayoutPosition returns the index of the clicked button
         }
     }
 }

@@ -56,13 +56,15 @@ public class Fighting_interface_activity extends AppCompatActivity {
 
             }
         });
+
+
         // Set health
         ArrayList<Integer> List_health_character_id = new ArrayList<>(Arrays.asList(R.id.HealthPlayer1Id, R.id.HealthPlayer2Id));
         for (int i = 0; i < Personnage.Combat_character_list.size(); i++) {
             Personnage Character = Personnage.Combat_character_list.get(i);
             int Health = Character.getHealth();
             TextView text = (TextView) findViewById(List_health_character_id.get(i));
-            text.setText(Health);
+            text.setText(String.valueOf(Health));
         }
     }
         private void setUpSkillModel(){
