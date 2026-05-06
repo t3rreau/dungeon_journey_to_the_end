@@ -89,9 +89,7 @@ public class GridWorldLoop  extends Thread
 			{
 				try
 				{
-					Log.d("thread", "slep");
 					sleep(sleepTime);
-					Log.d("thread", "unslep");
 				}
 				catch (InterruptedException e)
 				{
