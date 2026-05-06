@@ -38,7 +38,7 @@ public class Fighting_interface_activity extends AppCompatActivity {
         });
         RecyclerView recyclerView = findViewById(R.id.SkillsSelectionId);
         setUpSkillModel();
-        Skills_RecyclerView_Adapter adapter = new Skills_RecyclerView_Adapter(getApplicationContext(), SkillsModel);
+        Skills_RecyclerView_Adapter adapter = new Skills_RecyclerView_Adapter(getApplicationContext(), SkillsModel, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 // Ouverture menu skills
@@ -69,8 +69,9 @@ public class Fighting_interface_activity extends AppCompatActivity {
     }
         private void setUpSkillModel(){
             String[] SkillNames = getResources().getStringArray(R.array.Skills_txt); // we may use the same method to create the detail button onclick
+            int[] SkillDamages = getResources().getIntArray(R.array.Skills_Damage_txt);
             for (int i = 0; i < SkillNames.length; i++) {
-                SkillsModel.add(new SkillModel(SkillNames[i]));
+                SkillsModel.add(new SkillModel(SkillNames[i], SkillDamages[i]));
             }
         }
 
